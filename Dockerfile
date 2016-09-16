@@ -9,7 +9,7 @@ ENV HOME /root
 #Install ZeroNet
 RUN \
     apt-get update -y; \
-    apt-get -y install msgpack-python python-gevent python-pip python-dev; \
+    apt-get -y install msgpack-python python-gevent python-pip python-dev curl; \
     pip install msgpack-python --upgrade; \
     apt-get clean -y; \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -19,7 +19,7 @@ ADD . /root
 VOLUME /root/data
 
 #Set upstart command
-CMD cd /root && python zeronet.py --ui_ip 0.0.0.0
+CMD cd /root && python zeronet.py --ui_ip 0.0.0.0 --ip_external $(curl http://www.pubyun.com/dyndns/getip)
 
 #Expose ports
 EXPOSE 43110
